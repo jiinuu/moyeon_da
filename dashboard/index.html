@@ -4,251 +4,435 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>안산시 외국인 보육료 정책 | 데이터로 보는 불편한 진실</title>
-    <meta name="description" content="선입견을 데이터로 깨부수는 정책 감사 대시보드">
+    <title>안산시 다문화 보육 정보 센터 | 모든 아이의 행복한 시작</title>
+    <meta name="description" content="안산시 다문화 가정을 위한 보육 지원 정책 정보와 신청 안내">
     <link rel="preconnect" href="https://fonts.googleapis.com">
     <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap"
         rel="stylesheet">
     <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
-    <script src="https://cdn.jsdelivr.net/npm/chartjs-plugin-datalabels@2.0.0"></script>
     <link rel="stylesheet" href="styles.css">
     <style>
-        /* 추가 차트 스타일 */
-        .chart-container {
+        /* 새로운 공감 기반 스타일 */
+        :root {
+            --color-warm-primary: #4f46e5;
+            --color-warm-secondary: #7c3aed;
+            --color-warm-accent: #06b6d4;
+            --color-warm-success: #10b981;
+            --color-warm-light: #f0f9ff;
+            --color-trust: #3b82f6;
+        }
+
+        .info-hero {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 50%, #4338ca 100%);
+            padding: 100px 0 80px;
+            text-align: center;
             position: relative;
-            width: 100%;
-            max-width: 600px;
+            overflow: hidden;
+        }
+
+        .info-hero::before {
+            content: '';
+            position: absolute;
+            top: -50%;
+            left: -50%;
+            width: 200%;
+            height: 200%;
+            background: radial-gradient(circle, rgba(99, 102, 241, 0.1) 0%, transparent 50%);
+            animation: float 20s ease-in-out infinite;
+        }
+
+        @keyframes float {
+
+            0%,
+            100% {
+                transform: translateY(0) rotate(0deg);
+            }
+
+            50% {
+                transform: translateY(-20px) rotate(5deg);
+            }
+        }
+
+        .info-hero-content {
+            position: relative;
+            z-index: 1;
+            max-width: 800px;
             margin: 0 auto;
+            padding: 0 var(--spacing-lg);
         }
 
-        .chart-container.wide {
-            max-width: 900px;
-        }
-
-        .chart-container.full {
-            max-width: 100%;
-        }
-
-        .perception-card {
-            background: var(--color-bg-glass);
-            border: 1px solid rgba(255, 255, 255, 0.08);
-            border-radius: var(--border-radius-lg);
-            padding: var(--spacing-xl);
-            margin-bottom: var(--spacing-lg);
-            transition: var(--transition-base);
-        }
-
-        .perception-card:hover {
-            transform: translateX(10px);
-            border-color: var(--color-primary);
-        }
-
-        .perception-card.critical {
-            border-left: 4px solid var(--color-danger);
-        }
-
-        .perception-card.high {
-            border-left: 4px solid var(--color-warning);
-        }
-
-        .perception-header {
-            display: flex;
-            justify-content: space-between;
+        .info-badge {
+            display: inline-flex;
             align-items: center;
-            margin-bottom: var(--spacing-md);
+            gap: 8px;
+            background: rgba(255, 255, 255, 0.1);
+            border: 1px solid rgba(255, 255, 255, 0.2);
+            padding: 8px 20px;
+            border-radius: 50px;
+            font-size: 14px;
+            margin-bottom: 24px;
+            backdrop-filter: blur(10px);
         }
 
-        .perception-category {
-            font-size: var(--font-size-lg);
-            font-weight: 600;
+        .info-badge-icon {
+            font-size: 18px;
         }
 
-        .severity-badge {
-            padding: var(--spacing-xs) var(--spacing-sm);
-            border-radius: var(--border-radius-full);
-            font-size: var(--font-size-xs);
-            font-weight: 600;
-        }
-
-        .severity-badge.critical {
-            background: rgba(239, 68, 68, 0.2);
-            color: var(--color-danger);
-        }
-
-        .severity-badge.high {
-            background: rgba(245, 158, 11, 0.2);
-            color: var(--color-warning);
-        }
-
-        .perception-compare {
-            display: grid;
-            grid-template-columns: 1fr auto 1fr;
-            gap: var(--spacing-lg);
-            align-items: center;
-        }
-
-        .perception-box {
-            padding: var(--spacing-md);
-            border-radius: var(--border-radius-md);
-            text-align: center;
-        }
-
-        .perception-box.before {
-            background: rgba(99, 102, 241, 0.1);
-            border: 1px solid rgba(99, 102, 241, 0.3);
-        }
-
-        .perception-box.after {
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-        }
-
-        .perception-label {
-            font-size: var(--font-size-xs);
-            color: var(--color-text-muted);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .perception-value {
-            font-size: var(--font-size-lg);
+        .info-hero h1 {
+            font-size: clamp(2rem, 5vw, 3rem);
             font-weight: 700;
+            margin-bottom: 16px;
+            line-height: 1.3;
         }
 
-        .perception-box.before .perception-value {
-            color: var(--color-primary-light);
-        }
-
-        .perception-box.after .perception-value {
-            color: var(--color-danger);
-        }
-
-        .perception-arrow {
-            font-size: var(--font-size-2xl);
-            color: var(--color-text-muted);
-        }
-
-        /* 타임라인 스타일 개선 */
-        .data-timeline {
-            position: relative;
-            padding-left: var(--spacing-2xl);
-        }
-
-        .data-timeline::before {
-            content: '';
-            position: absolute;
-            left: 8px;
-            top: 0;
-            bottom: 0;
-            width: 2px;
-            background: linear-gradient(180deg, var(--color-success), var(--color-warning), var(--color-danger));
-        }
-
-        .timeline-event {
-            position: relative;
-            padding: var(--spacing-md) 0;
-            padding-left: var(--spacing-lg);
-        }
-
-        .timeline-event::before {
-            content: '';
-            position: absolute;
-            left: -26px;
-            top: 50%;
-            transform: translateY(-50%);
-            width: 16px;
-            height: 16px;
-            border-radius: 50%;
-            border: 3px solid var(--color-bg-primary);
-        }
-
-        .timeline-event.positive::before {
-            background: var(--color-success);
-        }
-
-        .timeline-event.neutral::before {
-            background: var(--color-warning);
-        }
-
-        .timeline-event.negative::before {
-            background: var(--color-danger);
-            box-shadow: 0 0 20px var(--color-danger-glow);
-        }
-
-        .timeline-date {
-            font-size: var(--font-size-sm);
-            color: var(--color-text-muted);
-            margin-bottom: var(--spacing-xs);
-        }
-
-        .timeline-text {
-            font-size: var(--font-size-base);
-        }
-
-        .timeline-event.negative .timeline-text {
-            color: var(--color-danger);
-            font-weight: 600;
-        }
-
-        /* 비교 차트 강조 */
-        .comparison-highlight {
-            padding: var(--spacing-lg);
-            background: rgba(239, 68, 68, 0.1);
-            border: 1px solid rgba(239, 68, 68, 0.3);
-            border-radius: var(--border-radius-lg);
-            text-align: center;
-            margin-top: var(--spacing-xl);
-        }
-
-        .comparison-highlight h4 {
-            color: var(--color-danger);
-            margin-bottom: var(--spacing-md);
-        }
-
-        /* 숫자 강조 */
-        .big-stat {
-            text-align: center;
-            padding: var(--spacing-2xl);
-        }
-
-        .big-stat-number {
-            font-size: 5rem;
-            font-weight: 900;
-            line-height: 1;
-        }
-
-        .big-stat-number.danger {
-            color: var(--color-danger);
-            text-shadow: 0 0 40px var(--color-danger-glow);
-        }
-
-        .big-stat-number.primary {
-            background: var(--gradient-primary);
+        .info-hero h1 .highlight {
+            background: linear-gradient(90deg, #06b6d4, #8b5cf6);
             -webkit-background-clip: text;
             -webkit-text-fill-color: transparent;
             background-clip: text;
         }
 
-        .big-stat-label {
-            font-size: var(--font-size-lg);
-            color: var(--color-text-secondary);
-            margin-top: var(--spacing-md);
+        .info-hero-subtitle {
+            font-size: 1.125rem;
+            color: rgba(255, 255, 255, 0.8);
+            margin-bottom: 40px;
+            line-height: 1.6;
         }
 
-        /* 데이터 그리드 */
-        .data-grid {
+        .hero-stats-row {
+            display: flex;
+            justify-content: center;
+            gap: 40px;
+            flex-wrap: wrap;
+        }
+
+        .hero-stat {
+            text-align: center;
+        }
+
+        .hero-stat-number {
+            font-size: 2.5rem;
+            font-weight: 700;
+            color: var(--color-warm-accent);
+        }
+
+        .hero-stat-label {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-top: 4px;
+        }
+
+        /* 부드러운 섹션 스타일 */
+        .content-section {
+            padding: 80px 0;
+        }
+
+        .content-section.light {
+            background: var(--color-bg-secondary);
+        }
+
+        .section-intro {
+            text-align: center;
+            max-width: 700px;
+            margin: 0 auto 48px;
+        }
+
+        .section-intro h2 {
+            font-size: 1.875rem;
+            font-weight: 700;
+            margin-bottom: 16px;
+        }
+
+        .section-intro p {
+            color: var(--color-text-secondary);
+            line-height: 1.7;
+        }
+
+        /* 정보 카드 */
+        .info-card {
+            background: var(--color-bg-glass);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+            transition: all 0.3s ease;
+        }
+
+        .info-card:hover {
+            transform: translateY(-4px);
+            border-color: rgba(99, 102, 241, 0.3);
+            box-shadow: 0 20px 40px rgba(0, 0, 0, 0.2);
+        }
+
+        .info-card-icon {
+            width: 56px;
+            height: 56px;
+            background: linear-gradient(135deg, var(--color-warm-primary), var(--color-warm-secondary));
+            border-radius: 12px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 24px;
+            margin-bottom: 20px;
+        }
+
+        .info-card h3 {
+            font-size: 1.25rem;
+            font-weight: 600;
+            margin-bottom: 12px;
+        }
+
+        .info-card p {
+            color: var(--color-text-secondary);
+            line-height: 1.6;
+            font-size: 0.9375rem;
+        }
+
+        /* 지원 안내 테이블 */
+        .support-table {
+            width: 100%;
+            border-collapse: separate;
+            border-spacing: 0;
+            background: var(--color-bg-glass);
+            border-radius: 16px;
+            overflow: hidden;
+        }
+
+        .support-table th,
+        .support-table td {
+            padding: 20px 24px;
+            text-align: left;
+            border-bottom: 1px solid rgba(255, 255, 255, 0.05);
+        }
+
+        .support-table th {
+            background: rgba(99, 102, 241, 0.1);
+            font-weight: 600;
+            color: var(--color-text-primary);
+        }
+
+        .support-table tr:last-child td {
+            border-bottom: none;
+        }
+
+        .support-table .amount {
+            font-size: 1.25rem;
+            font-weight: 700;
+            color: var(--color-warm-accent);
+        }
+
+        /* 스토리 섹션 */
+        .story-section {
+            background: linear-gradient(180deg, var(--color-bg-primary) 0%, #1a1a2e 100%);
+        }
+
+        .story-card {
+            background: linear-gradient(135deg, rgba(99, 102, 241, 0.1), rgba(139, 92, 246, 0.05));
+            border: 1px solid rgba(99, 102, 241, 0.2);
+            border-radius: 20px;
+            padding: 48px;
+            position: relative;
+            overflow: hidden;
+        }
+
+        .story-card::before {
+            content: '"';
+            position: absolute;
+            top: 20px;
+            left: 30px;
+            font-size: 100px;
+            color: rgba(99, 102, 241, 0.1);
+            font-family: serif;
+            line-height: 1;
+        }
+
+        .story-text {
+            font-size: 1.125rem;
+            line-height: 1.8;
+            color: var(--color-text-secondary);
+            position: relative;
+            z-index: 1;
+        }
+
+        .story-text p {
+            margin-bottom: 16px;
+        }
+
+        .story-highlight {
+            color: var(--color-warm-accent);
+            font-weight: 500;
+        }
+
+        /* CTA 섹션 */
+        .participate-section {
+            background: linear-gradient(135deg, #1e1b4b 0%, #312e81 100%);
+            padding: 80px 0;
+        }
+
+        .participate-grid {
+            display: grid;
+            grid-template-columns: repeat(auto-fit, minmax(280px, 1fr));
+            gap: 24px;
+        }
+
+        .participate-card {
+            background: rgba(255, 255, 255, 0.05);
+            border: 1px solid rgba(255, 255, 255, 0.1);
+            border-radius: 16px;
+            padding: 32px;
+            text-align: center;
+            transition: all 0.3s ease;
+        }
+
+        .participate-card:hover {
+            background: rgba(255, 255, 255, 0.08);
+            transform: translateY(-4px);
+        }
+
+        .participate-icon {
+            font-size: 40px;
+            margin-bottom: 16px;
+        }
+
+        .participate-card h4 {
+            font-size: 1.125rem;
+            font-weight: 600;
+            margin-bottom: 8px;
+        }
+
+        .participate-card p {
+            font-size: 0.875rem;
+            color: rgba(255, 255, 255, 0.7);
+            margin-bottom: 16px;
+        }
+
+        .participate-link {
+            display: inline-flex;
+            align-items: center;
+            gap: 8px;
+            color: var(--color-warm-accent);
+            text-decoration: none;
+            font-weight: 500;
+            font-size: 0.875rem;
+        }
+
+        .participate-link:hover {
+            text-decoration: underline;
+        }
+
+        /* 노트 박스 */
+        .note-box {
+            background: rgba(245, 158, 11, 0.1);
+            border: 1px solid rgba(245, 158, 11, 0.3);
+            border-radius: 12px;
+            padding: 20px 24px;
+            margin-top: 24px;
+        }
+
+        .note-box-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #f59e0b;
+            margin-bottom: 8px;
+        }
+
+        .note-box p {
+            color: rgba(255, 255, 255, 0.8);
+            font-size: 0.9375rem;
+            line-height: 1.6;
+        }
+
+        /* 희망 박스 */
+        .hope-box {
+            background: rgba(16, 185, 129, 0.1);
+            border: 1px solid rgba(16, 185, 129, 0.3);
+            border-radius: 12px;
+            padding: 24px;
+            margin-top: 32px;
+        }
+
+        .hope-box-title {
+            display: flex;
+            align-items: center;
+            gap: 8px;
+            font-weight: 600;
+            color: #10b981;
+            margin-bottom: 12px;
+        }
+
+        .hope-box p {
+            color: rgba(255, 255, 255, 0.8);
+            line-height: 1.6;
+        }
+
+        /* 차트 컨테이너 */
+        .chart-card {
+            background: var(--color-bg-glass);
+            border: 1px solid rgba(255, 255, 255, 0.08);
+            border-radius: 16px;
+            padding: 32px;
+        }
+
+        .chart-card-header {
+            display: flex;
+            justify-content: space-between;
+            align-items: center;
+            margin-bottom: 24px;
+        }
+
+        .chart-card h3 {
+            font-size: 1.125rem;
+            font-weight: 600;
+        }
+
+        .chart-wrapper {
+            position: relative;
+            height: 300px;
+        }
+
+        /* 출처 섹션 */
+        .sources-section {
+            background: var(--color-bg-secondary);
+        }
+
+        .source-list {
             display: grid;
             grid-template-columns: repeat(auto-fit, minmax(300px, 1fr));
-            gap: var(--spacing-xl);
+            gap: 16px;
         }
 
-        .data-grid.three-col {
-            grid-template-columns: repeat(3, 1fr);
+        .source-item {
+            background: var(--color-bg-glass);
+            border: 1px solid rgba(255, 255, 255, 0.05);
+            border-radius: 12px;
+            padding: 20px;
+            display: flex;
+            align-items: flex-start;
+            gap: 16px;
         }
 
-        @media (max-width: 900px) {
-            .data-grid.three-col {
-                grid-template-columns: 1fr;
-            }
+        .source-icon {
+            width: 40px;
+            height: 40px;
+            background: rgba(99, 102, 241, 0.1);
+            border-radius: 10px;
+            display: flex;
+            align-items: center;
+            justify-content: center;
+            font-size: 18px;
+            flex-shrink: 0;
+        }
+
+        .source-content h5 {
+            font-size: 0.9375rem;
+            font-weight: 600;
+            margin-bottom: 4px;
+        }
+
+        .source-content p {
+            font-size: 0.8125rem;
+            color: var(--color-text-muted);
         }
     </style>
 </head>
@@ -271,351 +455,310 @@
     <div id="loading-screen">
         <div class="loading-content">
             <div class="loading-spinner"></div>
-            <h2>데이터를 분석하고 있습니다...</h2>
-            <p class="loading-text">선입견을 깨부수는 중...</p>
+            <h2>정보를 불러오고 있습니다</h2>
         </div>
     </div>
 
     <!-- 메인 앱 -->
     <div id="app">
         <!-- 히어로 섹션 -->
-        <section id="hero" class="section hero-section">
-            <div class="hero-overlay"></div>
-            <div class="hero-content">
-                <div class="badge animate-fade-in">🔍 데이터 기반 정책 감사</div>
-                <h1 class="hero-title animate-fade-in">
-                    당신이 <span class="highlight-text">믿고 있던 것</span>과<br>
-                    <span class="warning-text">현실</span>은 다릅니다
+        <section class="info-hero">
+            <div class="info-hero-content">
+                <div class="info-badge">
+                    <span class="info-badge-icon">🌏</span>
+                    안산시 다문화 정책 정보
+                </div>
+
+                <h1>
+                    <span class="highlight">모든 아이</span>의<br>
+                    행복한 시작을 함께 만들어갑니다
                 </h1>
-                <p class="hero-subtitle animate-fade-in">
-                    안산시 외국인 보육료 지원 정책, 데이터로 보는 불편한 진실
+
+                <p class="info-hero-subtitle">
+                    대한민국에서 가장 다양한 문화가 공존하는 도시, 안산.<br>
+                    다문화 가정을 위한 보육 지원 정책과 현황을 안내합니다.
                 </p>
-                <div class="hero-stats animate-fade-in">
-                    <div class="stat-box">
-                        <span class="stat-number counter" data-target="2144">0</span>
-                        <span class="stat-label">등록 아동 지원 (명)</span>
-                    </div>
-                    <div class="stat-divider">VS</div>
-                    <div class="stat-box warning">
-                        <span class="stat-number">0</span>
-                        <span class="stat-label">미등록 아동 지원 (명)</span>
-                    </div>
-                </div>
-                <a href="#perception" class="scroll-indicator">
-                    <span>진실 확인하기</span>
-                    <div class="scroll-arrow"></div>
-                </a>
-            </div>
-        </section>
 
-        <!-- 선입견 vs 현실 섹션 -->
-        <section id="perception" class="section dark-section">
-            <div class="container">
-                <div class="section-header light">
-                    <span class="section-badge warning">핵심 발견</span>
-                    <h2>당신의 선입견 vs 불편한 현실</h2>
-                    <p>데이터가 말하는 진실을 마주하세요</p>
-                </div>
-
-                <div id="perception-cards" class="animate-on-scroll">
-                    <!-- JavaScript로 동적 생성 -->
+                <div class="hero-stats-row">
+                    <div class="hero-stat">
+                        <div class="hero-stat-number counter" data-target="96300">0</div>
+                        <div class="hero-stat-label">외국인 주민 (명)</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number counter" data-target="2144">0</div>
+                        <div class="hero-stat-label">보육 지원 아동 (명)</div>
+                    </div>
+                    <div class="hero-stat">
+                        <div class="hero-stat-number">72.8<span style="font-size: 1.5rem;">억</span></div>
+                        <div class="hero-stat-label">2025년 예산 (원)</div>
+                    </div>
                 </div>
             </div>
         </section>
 
-        <!-- 외국인 현황 추이 섹션 -->
-        <section id="trend" class="section">
+        <!-- 우리 도시 소개 -->
+        <section id="city" class="content-section">
             <div class="container">
-                <div class="section-header">
-                    <span class="section-badge">데이터 분석</span>
-                    <h2>안산시 외국인 인구 추이</h2>
-                    <p>7년간의 변화, 그리고 숨겨진 사각지대</p>
+                <div class="section-intro">
+                    <h2>🏙️ 글로벌 도시 안산</h2>
+                    <p>
+                        안산시는 전체 인구의 13.2%가 외국인 주민으로,<br>
+                        전국에서 가장 다양한 문화가 어우러진 도시입니다.
+                    </p>
                 </div>
 
                 <div class="data-grid">
-                    <div class="card glass-card animate-on-scroll">
-                        <div class="card-header">
-                            <span class="card-icon">📈</span>
-                            <h3>외국인 인구 증가 추이</h3>
-                            <button class="source-btn small" onclick="showSource('trend-data')">📎</button>
-                        </div>
-                        <div class="chart-container wide">
-                            <canvas id="trend-chart"></canvas>
-                        </div>
+                    <div class="info-card animate-on-scroll">
+                        <div class="info-card-icon">🌍</div>
+                        <h3>다양성의 도시</h3>
+                        <p>
+                            80여 개국 출신의 외국인 주민들이 함께 살아가는 안산은
+                            '리틀 아시아'라 불리며 다문화 공존의 모범을 보여주고 있습니다.
+                        </p>
                     </div>
 
-                    <div class="card glass-card animate-on-scroll">
-                        <div class="big-stat">
-                            <div class="big-stat-number primary counter" data-target="13.2">0</div>
-                            <div class="big-stat-label">%</div>
-                            <p>2024년 외국인 비율 (전국 1위)</p>
-                        </div>
-                        <div class="big-stat">
-                            <div class="big-stat-number danger">0%</div>
-                            <div class="big-stat-label">미등록 아동 지원율</div>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 경기도 비교 섹션 -->
-        <section id="comparison" class="section light-section">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-badge danger">역설의 증거</span>
-                    <h2>경기도 시군구 비교</h2>
-                    <p>가장 필요한 곳이 가장 먼저 배제되었습니다</p>
-                </div>
-
-                <div class="card glass-card animate-on-scroll">
-                    <div class="card-header">
-                        <span class="card-icon">🗺️</span>
-                        <h3>외국인 비율 vs 시범사업 참여</h3>
-                        <button class="source-btn small" onclick="showSource('comparison-data')">📎</button>
-                    </div>
-                    <div class="chart-container full">
-                        <canvas id="comparison-chart"></canvas>
+                    <div class="info-card animate-on-scroll">
+                        <div class="info-card-icon">📍</div>
+                        <h3>원곡동 다문화특구</h3>
+                        <p>
+                            다문화마을특구로 지정된 원곡동은 전체 주민의 89.2%가
+                            외국인으로, 다양한 문화와 음식, 언어가 공존합니다.
+                        </p>
                     </div>
 
-                    <div class="comparison-highlight">
-                        <h4>⚠️ 핵심 역설</h4>
-                        <p>외국인 비율 <strong>1위 안산시</strong>가 경기도 미등록 아동 시범사업에서 <strong>제외</strong>되었습니다.<br>
-                            반면, 3위 화성시, 5위 안성시, 6위 이천시는 <strong>참여</strong>합니다.</p>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 보육료 지원 현황 -->
-        <section id="support" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-badge">예산 분석</span>
-                    <h2>보육료 지원 현황</h2>
-                    <p>지원금은 누구에게 가고 있는가?</p>
-                </div>
-
-                <div class="data-grid three-col">
-                    <div class="card glass-card animate-on-scroll">
-                        <div class="card-header">
-                            <span class="card-icon">👶</span>
-                            <h3>0~2세</h3>
-                        </div>
-                        <div class="big-stat">
-                            <div class="big-stat-number primary">26</div>
-                            <div class="big-stat-label">만원/월</div>
-                        </div>
-                        <p class="card-note">도비 10만 + 시비 16만</p>
-                    </div>
-
-                    <div class="card glass-card animate-on-scroll">
-                        <div class="card-header">
-                            <span class="card-icon">🧒</span>
-                            <h3>3~5세</h3>
-                        </div>
-                        <div class="big-stat">
-                            <div class="big-stat-number primary">28</div>
-                            <div class="big-stat-label">만원/월</div>
-                        </div>
-                        <p class="card-note">도비 10만 + 시비 18만</p>
-                    </div>
-
-                    <div class="card glass-card animate-on-scroll" style="border-color: rgba(239, 68, 68, 0.3);">
-                        <div class="card-header">
-                            <span class="card-icon">❌</span>
-                            <h3>미등록 아동</h3>
-                        </div>
-                        <div class="big-stat">
-                            <div class="big-stat-number danger">0</div>
-                            <div class="big-stat-label">원/월</div>
-                        </div>
-                        <p class="card-note" style="color: var(--color-danger);">정책 대상에서 제외</p>
-                    </div>
-                </div>
-
-                <div class="card glass-card animate-on-scroll" style="margin-top: var(--spacing-2xl);">
-                    <div class="card-header">
-                        <span class="card-icon">📊</span>
-                        <h3>지원 현황 비교</h3>
-                        <button class="source-btn small" onclick="showSource('support-data')">📎</button>
-                    </div>
-                    <div class="chart-container wide">
-                        <canvas id="support-chart"></canvas>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 원곡동 특구 섹션 -->
-        <section id="wongok" class="section dark-section">
-            <div class="container">
-                <div class="section-header light">
-                    <span class="section-badge">Deep Dive</span>
-                    <h2>원곡동 다문화특구</h2>
-                    <p>대한민국에서 가장 다문화적인 동네의 현실</p>
-                </div>
-
-                <div class="data-grid">
-                    <div class="card glass-card animate-on-scroll">
-                        <div class="card-header">
-                            <span class="card-icon">🏘️</span>
-                            <h3>주민 구성</h3>
-                            <button class="source-btn small" onclick="showSource('wongok-data')">📎</button>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="wongok-chart"></canvas>
-                        </div>
-                        <p class="card-note">총 20,191명 중 18,014명이 외국인 (89.2%)</p>
-                    </div>
-
-                    <div class="card glass-card animate-on-scroll">
-                        <div class="card-header">
-                            <span class="card-icon">🏫</span>
-                            <h3>원곡초등학교</h3>
-                        </div>
-                        <div class="big-stat">
-                            <div class="big-stat-number primary counter" data-target="98.6">0</div>
-                            <div class="big-stat-label">%</div>
-                            <p style="margin-top: var(--spacing-md);">이주배경 학생 비율</p>
-                            <p class="card-note">전체 449명 중 443명</p>
-                        </div>
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 정책 타임라인 -->
-        <section id="timeline" class="section">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-badge">정책 연혁</span>
-                    <h2>안산시 외국인 보육 정책의 역사</h2>
-                    <p>성장의 시간, 그리고 갑작스런 반전</p>
-                </div>
-
-                <div class="card glass-card animate-on-scroll">
-                    <div class="data-timeline" id="policy-timeline">
-                        <!-- JavaScript로 동적 생성 -->
-                    </div>
-                </div>
-            </div>
-        </section>
-
-        <!-- 예산 분석 -->
-        <section id="budget" class="section light-section">
-            <div class="container">
-                <div class="section-header">
-                    <span class="section-badge success">해결책</span>
-                    <h2>사각지대 해소 비용</h2>
-                    <p>불가능한 것이 아닙니다</p>
-                </div>
-
-                <div class="data-grid">
-                    <div class="card glass-card animate-on-scroll">
-                        <div class="card-header">
-                            <span class="card-icon">💰</span>
-                            <h3>현재 vs 필요 예산</h3>
-                            <button class="source-btn small" onclick="showSource('budget-data')">📎</button>
-                        </div>
-                        <div class="chart-container">
-                            <canvas id="budget-chart"></canvas>
-                        </div>
-                    </div>
-
-                    <div class="card glass-card animate-on-scroll">
-                        <div class="card-header">
-                            <span class="card-icon">🧮</span>
-                            <h3>계산 로직</h3>
-                        </div>
-                        <div class="estimation-calc">
-                            <div class="calc-step">
-                                <span class="step-num">1</span>
-                                <div class="step-content">
-                                    <span class="step-label">미등록 아동 추정 (중간값)</span>
-                                    <span class="step-value">1,700명</span>
-                                </div>
-                            </div>
-                            <div class="calc-step">
-                                <span class="step-num">2</span>
-                                <div class="step-content">
-                                    <span class="step-label">월 지원금 (경기도 기준)</span>
-                                    <span class="step-value">10만원</span>
-                                </div>
-                            </div>
-                            <div class="calc-step">
-                                <span class="step-num">3</span>
-                                <div class="step-content">
-                                    <span class="step-label">연간 지원</span>
-                                    <span class="step-value">× 12개월</span>
-                                </div>
-                            </div>
-                            <div class="calc-result">
-                                <span class="result-label">연간 필요 예산</span>
-                                <div class="result-range">
-                                    <span class="range-max">20.4억원</span>
-                                </div>
-                            </div>
-                        </div>
-                        <p class="card-note" style="text-align: center; margin-top: var(--spacing-lg);">
-                            현재 예산의 <strong>약 28%</strong> 추가 시 사각지대 해소 가능<br>
-                            안산시 전체 예산의 <strong>약 0.1%</strong>에 불과
+                    <div class="info-card animate-on-scroll">
+                        <div class="info-card-icon">🏆</div>
+                        <h3>선도적 정책</h3>
+                        <p>
+                            안산시는 2018년부터 외국인 가정 보육 지원을 시작하여
+                            2024년 행정안전부 우수상을 수상했습니다.
                         </p>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- CTA 섹션 -->
-        <section id="cta" class="section conclusion-section">
+        <!-- 보육 지원 안내 -->
+        <section id="support" class="content-section light">
             <div class="container">
-                <div class="conclusion-content animate-on-scroll">
-                    <h2>이제 선택할 때입니다</h2>
-                    <div class="conclusion-text">
-                        <p>데이터는 분명히 말합니다.</p>
-                        <br>
-                        <p class="emphasis">"안산시는 전국 1위 다문화 도시입니다."</p>
-                        <p class="emphasis">"그러나 가장 취약한 아이들은 배제되어 있습니다."</p>
-                        <br>
-                        <p>이것은 의견이 아니라 <strong>사실</strong>입니다.</p>
-                        <br>
-                        <p class="warning-emphasis">변화는 이 사실을 인정하는 것에서 시작됩니다.</p>
+                <div class="section-intro">
+                    <h2>👶 보육 지원 안내</h2>
+                    <p>
+                        안산시는 등록외국인 가정의 영유아 보육을 지원합니다.<br>
+                        아래에서 자격 요건과 지원 내용을 확인하세요.
+                    </p>
+                </div>
+
+                <div class="card glass-card" style="max-width: 800px; margin: 0 auto;">
+                    <table class="support-table">
+                        <thead>
+                            <tr>
+                                <th>연령</th>
+                                <th>도비 지원</th>
+                                <th>시비 지원</th>
+                                <th>월 지원금 합계</th>
+                            </tr>
+                        </thead>
+                        <tbody>
+                            <tr>
+                                <td><strong>0~2세</strong> (영아)</td>
+                                <td>10만원</td>
+                                <td>16만원</td>
+                                <td><span class="amount">26만원</span></td>
+                            </tr>
+                            <tr>
+                                <td><strong>3~5세</strong> (유아)</td>
+                                <td>10만원</td>
+                                <td>18만원</td>
+                                <td><span class="amount">28만원</span></td>
+                            </tr>
+                        </tbody>
+                    </table>
+
+                    <div class="note-box">
+                        <div class="note-box-title">
+                            <span>📋</span> 자격 요건
+                        </div>
+                        <p>
+                            • 안산시 관내 어린이집에 재원 중인 <strong>등록외국인</strong> 아동<br>
+                            • 아동과 보호자(1명)가 경기도 및 안산시에 <strong>90일 초과</strong> 거주<br>
+                            • 외국인등록증 또는 거소신고증 소지자
+                        </p>
+                    </div>
+                </div>
+
+                <div style="text-align: center; margin-top: 40px;">
+                    <p style="color: var(--color-text-muted); margin-bottom: 16px;">
+                        신청 및 문의
+                    </p>
+                    <p style="font-size: 1.25rem;">
+                        <strong>안산시 여성보육과</strong> ☎ 031-481-3323
+                    </p>
+                </div>
+            </div>
+        </section>
+
+        <!-- 데이터로 보는 우리 동네 -->
+        <section id="data" class="content-section">
+            <div class="container">
+                <div class="section-intro">
+                    <h2>📊 데이터로 보는 우리 동네</h2>
+                    <p>
+                        투명한 정보 공개를 통해 정책 현황을 함께 살펴봅니다.
+                    </p>
+                </div>
+
+                <div class="data-grid">
+                    <div class="chart-card animate-on-scroll">
+                        <div class="chart-card-header">
+                            <h3>외국인 인구 추이 (2018~2024)</h3>
+                            <button class="source-btn small" onclick="showSource('trend-data')">📎 출처</button>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="trend-chart"></canvas>
+                        </div>
+                    </div>
+
+                    <div class="chart-card animate-on-scroll">
+                        <div class="chart-card-header">
+                            <h3>경기도 주요 시군 외국인 현황</h3>
+                            <button class="source-btn small" onclick="showSource('comparison-data')">📎 출처</button>
+                        </div>
+                        <div class="chart-wrapper">
+                            <canvas id="comparison-chart"></canvas>
+                        </div>
                     </div>
                 </div>
             </div>
         </section>
 
-        <!-- 출처 요약 -->
-        <section id="sources" class="section sources-section">
+        <!-- 함께 생각해볼 이야기 -->
+        <section id="story" class="content-section story-section">
             <div class="container">
-                <div class="section-header">
-                    <span class="section-badge">📎 참고자료</span>
-                    <h2>데이터 출처</h2>
+                <div class="section-intro">
+                    <h2>💭 함께 생각해볼 이야기</h2>
+                    <p>
+                        좋은 정책을 더 좋게 만들기 위해<br>
+                        함께 고민해야 할 부분이 있습니다.
+                    </p>
                 </div>
-                <div class="sources-grid">
-                    <div class="source-card" onclick="showSource('policy-document')">
-                        <span class="source-icon">📄</span>
-                        <h4>안산시 정책 문서</h4>
-                        <p>외국인가정의 안전한 보육환경 조성 (3-3-48)</p>
-                        <span class="source-type">공식 문서</span>
+
+                <div class="story-card animate-on-scroll">
+                    <div class="story-text">
+                        <p>
+                            안산시는 일찍부터 다문화 보육에 투자해왔습니다.
+                            현재 <span class="story-highlight">2,144명의 아이들</span>이
+                            보육료 지원을 받고 있으며, 이는 전국적으로도 모범적인 사례입니다.
+                        </p>
+                        <p>
+                            다만, 현재 정책은 '등록외국인' 가정을 대상으로 합니다.
+                            이는 <span class="story-highlight">일부 아동이 제도적 사각지대</span>에 놓일 수 있음을 의미합니다.
+                        </p>
+                        <p>
+                            법무부 통계에 따르면, 전국에 약 6,169명의 미등록 이주아동이 있으며,
+                            안산시에는 <span class="story-highlight">추정 800~2,600명</span>의
+                            아동이 있을 수 있습니다.
+                        </p>
                     </div>
-                    <div class="source-card" onclick="showSource('moj-stats')">
-                        <span class="source-icon">🏛️</span>
-                        <h4>법무부 통계</h4>
-                        <p>미등록 이주아동 현황 (2025.1)</p>
-                        <span class="source-type">정부 통계</span>
+
+                    <div class="hope-box">
+                        <div class="hope-box-title">
+                            <span>🌱</span> 변화의 움직임
+                        </div>
+                        <p>
+                            경기도는 2026년 1월부터 화성시, 안성시, 이천시에서
+                            <strong>미등록 외국인 아동 보육지원금 시범사업</strong>을 시작합니다.
+                            이 시범사업이 확대되면 안산시의 모든 아이들도
+                            혜택을 받을 수 있는 기회가 열립니다.
+                        </p>
                     </div>
-                    <div class="source-card" onclick="showSource('gyeonggi-pilot')">
-                        <span class="source-icon">📰</span>
-                        <h4>경기도 시범사업</h4>
-                        <p>미등록 외국인 아동 보육지원금 (2026.1)</p>
-                        <span class="source-type">보도자료</span>
+                </div>
+            </div>
+        </section>
+
+        <!-- 참여하기 -->
+        <section id="participate" class="participate-section">
+            <div class="container">
+                <div class="section-intro" style="color: white;">
+                    <h2>🤝 함께해주세요</h2>
+                    <p style="color: rgba(255,255,255,0.8);">
+                        모든 아이의 행복한 시작을 위해<br>
+                        여러분의 관심과 참여가 필요합니다.
+                    </p>
+                </div>
+
+                <div class="participate-grid">
+                    <div class="participate-card">
+                        <div class="participate-icon">📞</div>
+                        <h4>정책 문의</h4>
+                        <p>보육 지원 관련 문의 및 상담</p>
+                        <a href="tel:031-481-3323" class="participate-link">
+                            031-481-3323 →
+                        </a>
                     </div>
-                    <div class="source-card" onclick="showSource('foreigner-population')">
-                        <span class="source-icon">📊</span>
-                        <h4>외국인 인구 통계</h4>
-                        <p>안산시 외국인 주민 현황 (2024.1)</p>
-                        <span class="source-type">행정 통계</span>
+
+                    <div class="participate-card">
+                        <div class="participate-icon">💬</div>
+                        <h4>시민 의견 제안</h4>
+                        <p>정책 개선 아이디어를 공유해주세요</p>
+                        <a href="https://www.ansan.go.kr" target="_blank" class="participate-link">
+                            안산시청 바로가기 →
+                        </a>
+                    </div>
+
+                    <div class="participate-card">
+                        <div class="participate-icon">🏠</div>
+                        <h4>다문화가족지원센터</h4>
+                        <p>다양한 지원 프로그램 안내</p>
+                        <a href="https://www.liveinkorea.kr" target="_blank" class="participate-link">
+                            센터 찾기 →
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 자료실 -->
+        <section id="sources" class="content-section sources-section">
+            <div class="container">
+                <div class="section-intro">
+                    <h2>📚 자료실</h2>
+                    <p>
+                        이 페이지의 모든 정보는 공식 자료에 기반합니다.
+                    </p>
+                </div>
+
+                <div class="source-list">
+                    <div class="source-item" onclick="showSource('policy-document')">
+                        <div class="source-icon">📄</div>
+                        <div class="source-content">
+                            <h5>안산시 정책 문서 (3-3-48)</h5>
+                            <p>외국인가정의 안전한 보육환경 조성</p>
+                        </div>
+                    </div>
+
+                    <div class="source-item" onclick="showSource('moj-stats')">
+                        <div class="source-icon">🏛️</div>
+                        <div class="source-content">
+                            <h5>법무부 출입국통계</h5>
+                            <p>미등록 이주아동 현황 (2025.1)</p>
+                        </div>
+                    </div>
+
+                    <div class="source-item" onclick="showSource('gyeonggi-pilot')">
+                        <div class="source-icon">📰</div>
+                        <div class="source-content">
+                            <h5>경기도 시범사업 발표</h5>
+                            <p>미등록 외국인 아동 보육지원금 (2025.12)</p>
+                        </div>
+                    </div>
+
+                    <div class="source-item" onclick="showSource('foreigner-population')">
+                        <div class="source-icon">📊</div>
+                        <div class="source-content">
+                            <h5>안산시 외국인 주민 현황</h5>
+                            <p>2024년 1월 기준</p>
+                        </div>
                     </div>
                 </div>
             </div>
@@ -626,13 +769,15 @@
             <div class="container">
                 <div class="footer-content">
                     <div class="footer-info">
-                        <h4>안산시 정책 감사 및 개선을 위한 특별 에이전트 팀</h4>
-                        <p>데이터 기반 정책 분석 대시보드</p>
-                        <p class="date">2026년 1월 15일</p>
+                        <h4>안산시 다문화 보육 정보 센터</h4>
+                        <p>모든 아이의 행복한 시작을 위해</p>
+                        <p class="date">2026년 1월</p>
                     </div>
                     <div class="footer-quote">
-                        <p>"데이터는 거짓말을 하지 않습니다.<br>
-                            선입견을 깨는 것은 데이터를 마주하는 것에서 시작됩니다."</p>
+                        <p>
+                            "다양성은 우리의 강점입니다.<br>
+                            함께 더 나은 내일을 만들어갑니다."
+                        </p>
                     </div>
                 </div>
             </div>

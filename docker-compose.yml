@@ -1,0 +1,61 @@
+version: '3.8'
+
+# 안산시 다문화 보육 정책 데이터 분석 플랫폼
+# Metabase + DuckDB 기반 어드민 BI 도구
+
+services:
+  metabase:
+    image: metabase/metabase:latest
+    container_name: moyeon_metabase
+    ports:
+      - "3000:3000"
+    environment:
+      # Metabase 설정
+      MB_DB_TYPE: h2
+      MB_DB_FILE: /metabase-data/metabase.db
+      
+      # 초기 설정
+      MB_SITE_NAME: "안산시 다문화 보육 데이터 플랫폼"
+      MB_SITE_LOCALE: ko
+      
+    volumes:
+      # Metabase 데이터 저장
+      - ./admin/metabase-data:/metabase-data
+      
+      # DuckDB 데이터베이스 연결
+      - ./pipeline:/data/pipeline:ro
+      
+    restart: unless-stopped
+    
+    healthcheck:
+      test: ["CMD", "curl", "-f", "http://localhost:3000/api/health"]
+      interval: 30s
+      timeout: 10s
+      retries: 3
+
+  # DuckDB 웹 인터페이스 (대안)
+  duckdb-ui:
+    image: node:18-alpine
+    container_name: moyeon_duckdb_ui
+    working_dir: /app
+    ports:
+      - "8080:8080"
+    volumes:
+      - ./admin/duckdb-ui:/app
+      - ./pipeline:/data/pipeline:ro
+    command: >
+      sh -c "
+        if [ ! -f package.json ]; then
+          npm init -y
+          npm install express duckdb
+        fi
+        node server.js
+      "
+    restart: unless-stopped
+
+volumes:
+  metabase-data:
+
+networks:
+  default:
+    name: moyeon_network
