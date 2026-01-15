@@ -1,0 +1,136 @@
+{
+  "document_id": "foreigner_statistics_2024",
+  "document_name": "외국인 현황 통계 종합",
+  "extracted_at": "2026-01-15T16:11:26.357185",
+  "source_path": "multiple_sources",
+  "data": {
+    "ansan_foreigner_trend": [
+      {
+        "year": 2018,
+        "total_population": 705000,
+        "foreign_population": 78500,
+        "ratio": 11.1
+      },
+      {
+        "year": 2019,
+        "total_population": 710000,
+        "foreign_population": 82000,
+        "ratio": 11.5
+      },
+      {
+        "year": 2020,
+        "total_population": 715000,
+        "foreign_population": 79000,
+        "ratio": 11.0
+      },
+      {
+        "year": 2021,
+        "total_population": 718000,
+        "foreign_population": 85000,
+        "ratio": 11.8
+      },
+      {
+        "year": 2022,
+        "total_population": 722000,
+        "foreign_population": 90000,
+        "ratio": 12.5
+      },
+      {
+        "year": 2023,
+        "total_population": 726000,
+        "foreign_population": 93500,
+        "ratio": 12.9
+      },
+      {
+        "year": 2024,
+        "total_population": 730000,
+        "foreign_population": 96300,
+        "ratio": 13.2
+      }
+    ],
+    "gyeonggi_comparison": [
+      {
+        "region": "안산시",
+        "foreign_ratio": 13.2,
+        "foreign_count": 96300,
+        "pilot_program": false
+      },
+      {
+        "region": "시흥시",
+        "foreign_ratio": 10.1,
+        "foreign_count": 47500,
+        "pilot_program": false
+      },
+      {
+        "region": "화성시",
+        "foreign_ratio": 7.0,
+        "foreign_count": 63000,
+        "pilot_program": true
+      },
+      {
+        "region": "수원시",
+        "foreign_ratio": 4.8,
+        "foreign_count": 58000,
+        "pilot_program": false
+      },
+      {
+        "region": "안성시",
+        "foreign_ratio": 5.0,
+        "foreign_count": 9500,
+        "pilot_program": true
+      },
+      {
+        "region": "이천시",
+        "foreign_ratio": 4.0,
+        "foreign_count": 8800,
+        "pilot_program": true
+      }
+    ],
+    "wongok_multicultural": {
+      "total_residents": 20191,
+      "foreign_residents": 18014,
+      "korean_residents": 2177,
+      "foreign_ratio": 89.2,
+      "wongok_elementary": {
+        "total_students": 449,
+        "immigrant_background": 443,
+        "ratio": 98.6
+      }
+    },
+    "unregistered_children": {
+      "moj_official_2025": 6169,
+      "civil_society_low": 10000,
+      "civil_society_high": 20000,
+      "ansan_estimate_min": 814,
+      "ansan_estimate_max": 2640,
+      "ansan_estimate_mid": 1700
+    },
+    "sources": [
+      {
+        "name": "안산시청",
+        "date": "2024-01",
+        "type": "official"
+      },
+      {
+        "name": "법무부 출입국통계",
+        "date": "2025-01",
+        "type": "official"
+      },
+      {
+        "name": "경기도청 보도자료",
+        "date": "2025-12",
+        "type": "official"
+      },
+      {
+        "name": "경인일보",
+        "date": "2024-01",
+        "type": "news"
+      },
+      {
+        "name": "동아일보",
+        "date": "2024-01",
+        "type": "news"
+      }
+    ]
+  }
+}

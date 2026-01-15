@@ -1,0 +1,23 @@
+[
+  {
+    "category":"평균 월 지원금",
+    "registered_support":270000,
+    "unregistered_support":0,
+    "gap_amount":270000,
+    "gap_percentage":100.0
+  },
+  {
+    "category":"0~2세 월 지원금",
+    "registered_support":260000,
+    "unregistered_support":0,
+    "gap_amount":260000,
+    "gap_percentage":100.0
+  },
+  {
+    "category":"3~5세 월 지원금",
+    "registered_support":280000,
+    "unregistered_support":0,
+    "gap_amount":280000,
+    "gap_percentage":100.0
+  }
+]

@@ -1,0 +1,43 @@
+{
+  "document_id": "ansan_childcare_policy_2025",
+  "document_name": "외국인 보육료 지원(안산시 정책).pdf",
+  "extracted_at": "2026-01-15T16:11:26.320180",
+  "source_path": "외국인 보육료 지원(안산시 정책).pdf",
+  "data": {
+    "policy_name": "외국인가정의 안전한 보육환경 조성",
+    "document_number": "3-3-48",
+    "department": "안산시 여성보육과",
+    "contact": "031-481-3323",
+    "support_target": "관내 어린이집 재원 등록외국인 아동 (0~5세)",
+    "residence_requirement": "아동+보호자(1명) 경기도 및 안산시 90일 초과 거주",
+    "support_amounts": {
+      "age_0_2": {
+        "dobi": 100000,
+        "sibi": 160000,
+        "total": 260000
+      },
+      "age_3_5": {
+        "dobi": 100000,
+        "sibi": 180000,
+        "total": 280000
+      }
+    },
+    "extended_care": {
+      "age_0": 3000,
+      "age_1_2": 2000,
+      "age_3_5": 1000
+    },
+    "performance_2024": {
+      "childcare_recipients": 2144,
+      "extended_care_recipients": 1434,
+      "childcare_spent": 3938000000,
+      "extended_care_spent": 188000000,
+      "reference_date": "2024-08-31"
+    },
+    "budget_2025": {
+      "total": 7284000000,
+      "dobi": 1056000000,
+      "sibi": 6228000000
+    }
+  }
+}

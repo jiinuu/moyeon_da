@@ -1,0 +1,9 @@
+{
+  "generated_at": "2026-01-15T16:12:41.841824",
+  "data_sources": [
+    "gold.ansan_foreigner_trend",
+    "gold.gyeonggi_comparison",
+    "gold.support_gap_analysis"
+  ],
+  "total_keys": 3
+}
