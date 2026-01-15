@@ -1,0 +1,825 @@
+<!DOCTYPE html>
+<html lang="ko">
+
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>안산시 외국인 보육료 정책 감사 대시보드</title>
+    <meta name="description" content="안산시 외국인 보육료 지원 정책의 사각지대를 데이터로 분석한 인터랙티브 대시보드">
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Noto+Sans+KR:wght@300;400;500;600;700;900&display=swap"
+        rel="stylesheet">
+    <link rel="stylesheet" href="styles.css">
+</head>
+
+<body>
+    <!-- 출처 모달 -->
+    <div id="source-modal" class="modal">
+        <div class="modal-overlay" onclick="closeModal()"></div>
+        <div class="modal-content">
+            <button class="modal-close" onclick="closeModal()">&times;</button>
+            <div class="modal-header">
+                <span class="modal-icon">📎</span>
+                <h3 id="modal-title">출처 정보</h3>
+            </div>
+            <div class="modal-body" id="modal-body">
+                <!-- 동적으로 채워짐 -->
+            </div>
+        </div>
+    </div>
+
+    <!-- 로딩 화면 -->
+    <div id="loading-screen">
+        <div class="loading-content">
+            <div class="loading-spinner"></div>
+            <h2>데이터를 분석하고 있습니다...</h2>
+            <p class="loading-text">안산시 정책 사각지대 파악 중</p>
+        </div>
+    </div>
+
+    <!-- 메인 컨테이너 -->
+    <div id="app">
+        <!-- 히어로 섹션 -->
+        <section id="hero" class="section hero-section">
+            <div class="hero-overlay"></div>
+            <div class="hero-content">
+                <div class="badge animate-fade-in">📊 CRISP-DM 기반 정책 감사 보고서</div>
+                <h1 class="hero-title animate-fade-in">
+                    <span class="highlight-text">가장 많은 외국인이</span> 사는 도시,<br>
+                    <span class="warning-text">가장 취약한 아이들이</span> 배제된 도시
+                </h1>
+                <div class="hero-stats animate-fade-in">
+                    <div class="stat-box">
+                        <span class="stat-number counter" data-target="96300">0</span>
+                        <span class="stat-label">안산시 외국인 주민</span>
+                        <button class="source-btn" onclick="showSource('foreigner-population')">📎 출처</button>
+                    </div>
+                    <div class="stat-divider">VS</div>
+                    <div class="stat-box warning">
+                        <span class="stat-number">0%</span>
+                        <span class="stat-label">미등록 아동 지원율</span>
+                        <button class="source-btn" onclick="showSource('unregistered-support')">📎 출처</button>
+                    </div>
+                </div>
+                <a href="#overview" class="scroll-indicator">
+                    <span>아래로 스크롤</span>
+                    <div class="scroll-arrow"></div>
+                </a>
+            </div>
+        </section>
+
+        <!-- 현황 개요 섹션 -->
+        <section id="overview" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge">단계 I-II</span>
+                    <h2>안산시 외국인 현황</h2>
+                    <p>전국 최고의 외국인 밀집 도시, 그러나...</p>
+                </div>
+
+                <div class="overview-grid">
+                    <!-- 인구 통계 카드 -->
+                    <div class="card glass-card animate-on-scroll">
+                        <div class="card-header">
+                            <span class="card-icon">👥</span>
+                            <h3>외국인 인구 현황</h3>
+                            <button class="source-btn small" onclick="showSource('foreigner-population')">📎</button>
+                        </div>
+                        <div class="population-chart">
+                            <div class="donut-chart" id="population-donut">
+                                <svg viewBox="0 0 120 120">
+                                    <circle class="donut-ring" cx="60" cy="60" r="50" />
+                                    <circle class="donut-segment foreigner" cx="60" cy="60" r="50"
+                                        stroke-dasharray="41.4 314.16" stroke-dashoffset="0" />
+                                    <circle class="donut-segment korean" cx="60" cy="60" r="50"
+                                        stroke-dasharray="272.76 314.16" stroke-dashoffset="-41.4" />
+                                </svg>
+                                <div class="donut-center">
+                                    <span class="donut-percent">13.2%</span>
+                                    <span class="donut-label">외국인</span>
+                                </div>
+                            </div>
+                            <div class="chart-legend">
+                                <div class="legend-item">
+                                    <span class="legend-dot foreigner"></span>
+                                    <span>외국인 주민: 96,300명</span>
+                                </div>
+                                <div class="legend-item">
+                                    <span class="legend-dot korean"></span>
+                                    <span>내국인: 약 633,700명</span>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 원곡동 특별 카드 -->
+                    <div class="card glass-card special-card animate-on-scroll">
+                        <div class="card-header">
+                            <span class="card-icon">🏘️</span>
+                            <h3>원곡동 다문화특구</h3>
+                            <button class="source-btn small" onclick="showSource('wongok-stats')">📎</button>
+                        </div>
+                        <div class="special-stat">
+                            <div class="big-number">
+                                <span class="counter" data-target="89.2">0</span>%
+                            </div>
+                            <p>주민 10명 중 9명이 외국인</p>
+                        </div>
+                        <div class="mini-bar-chart">
+                            <div class="bar-item">
+                                <span class="bar-label">외국인</span>
+                                <div class="bar-track">
+                                    <div class="bar-fill foreigner" style="width: 89.2%"></div>
+                                </div>
+                                <span class="bar-value">18,014명</span>
+                            </div>
+                            <div class="bar-item">
+                                <span class="bar-label">내국인</span>
+                                <div class="bar-track">
+                                    <div class="bar-fill korean" style="width: 10.8%"></div>
+                                </div>
+                                <span class="bar-value">2,177명</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 현재 지원 현황 카드 (정책 문서 기반) -->
+                    <div class="card glass-card policy-card animate-on-scroll">
+                        <div class="card-header">
+                            <span class="card-icon">📋</span>
+                            <h3>현행 보육료 지원 현황</h3>
+                            <button class="source-btn small" onclick="showSource('policy-document')">📎</button>
+                        </div>
+                        <div class="policy-stats">
+                            <div class="policy-stat-item">
+                                <span class="policy-label">2024년 수혜 아동</span>
+                                <span class="policy-value highlight">2,144명</span>
+                            </div>
+                            <div class="policy-stat-item">
+                                <span class="policy-label">연장보육 수혜</span>
+                                <span class="policy-value">1,434명</span>
+                            </div>
+                            <div class="policy-stat-item">
+                                <span class="policy-label">2025년 예산</span>
+                                <span class="policy-value">72.84억원</span>
+                            </div>
+                            <div class="policy-stat-item">
+                                <span class="policy-label">지원율 목표</span>
+                                <span class="policy-value success">80% 이상</span>
+                            </div>
+                        </div>
+                        <p class="card-note">※ 안산시 정책 문서 기준 (24.8월말)</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 정책 상세 정보 섹션 -->
+        <section id="policy-detail" class="section light-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge">공식 정책</span>
+                    <h2>외국인 보육료 지원 정책 상세</h2>
+                    <p>안산시 여성보육과 공식 문서 기준</p>
+                </div>
+
+                <div class="policy-detail-grid">
+                    <!-- 지원 대상 -->
+                    <div class="card glass-card animate-on-scroll">
+                        <div class="card-header">
+                            <span class="card-icon">👶</span>
+                            <h3>지원 대상</h3>
+                        </div>
+                        <div class="policy-content">
+                            <ul class="policy-list">
+                                <li>
+                                    <span class="check-badge">✓</span>
+                                    안산시 관내 어린이집 재원 중인 <strong>0~5세 아동</strong>
+                                </li>
+                                <li>
+                                    <span class="check-badge">✓</span>
+                                    아동과 보호자(1명)가 경기도 및 안산시에 <strong>90일 초과 거주</strong>
+                                </li>
+                                <li class="warning-item">
+                                    <span class="x-badge">✗</span>
+                                    <strong class="warning-text">등록 외국인만 해당</strong>
+                                    <span class="warning-note">— 미등록 외국인 아동 제외</span>
+                                </li>
+                            </ul>
+                        </div>
+                        <button class="source-btn-full" onclick="showSource('policy-document')">
+                            📎 출처: 안산시 정책 문서 (3-3-48) 확인하기
+                        </button>
+                    </div>
+
+                    <!-- 지원 금액 -->
+                    <div class="card glass-card animate-on-scroll">
+                        <div class="card-header">
+                            <span class="card-icon">💰</span>
+                            <h3>지원 금액</h3>
+                        </div>
+                        <div class="support-amount-table">
+                            <div class="amount-row header">
+                                <span>연령</span>
+                                <span>도비</span>
+                                <span>시비</span>
+                                <span>총액</span>
+                            </div>
+                            <div class="amount-row">
+                                <span class="age-cell">0~2세</span>
+                                <span>10만원</span>
+                                <span>16만원</span>
+                                <span class="total-cell">월 26만원</span>
+                            </div>
+                            <div class="amount-row">
+                                <span class="age-cell">3~5세</span>
+                                <span>10만원</span>
+                                <span>18만원</span>
+                                <span class="total-cell">월 28만원</span>
+                            </div>
+                            <div class="amount-row excluded-row">
+                                <span class="age-cell warning">미등록</span>
+                                <span>-</span>
+                                <span>-</span>
+                                <span class="total-cell warning">0원</span>
+                            </div>
+                        </div>
+                        <div class="extension-info">
+                            <h4>연장보육료 (시간당)</h4>
+                            <div class="extension-items">
+                                <span class="ext-item">0세반/장애아: 3천원</span>
+                                <span class="ext-item">영아반: 2천원</span>
+                                <span class="ext-item">유아반: 1천원</span>
+                            </div>
+                        </div>
+                        <button class="source-btn-full" onclick="showSource('policy-document')">
+                            📎 출처: 안산시 정책 문서 확인하기
+                        </button>
+                    </div>
+
+                    <!-- 정책 연혁 -->
+                    <div class="card glass-card animate-on-scroll">
+                        <div class="card-header">
+                            <span class="card-icon">📅</span>
+                            <h3>정책 추진 연혁</h3>
+                        </div>
+                        <div class="timeline-mini">
+                            <div class="timeline-item-mini">
+                                <span class="year">2018.7</span>
+                                <span class="desc">외국인아동 누리과정 보육료 지원 시작 (3~5세)</span>
+                            </div>
+                            <div class="timeline-item-mini">
+                                <span class="year">2019.1</span>
+                                <span class="desc">외국인아동 보육료 지원 확대 (0~5세)</span>
+                            </div>
+                            <div class="timeline-item-mini">
+                                <span class="year">2023.1</span>
+                                <span class="desc">경기도 매칭 지원 및 연장보육료 신규지원</span>
+                            </div>
+                            <div class="timeline-item-mini">
+                                <span class="year">2024.1</span>
+                                <span class="desc">누리아동 증액 (월16.2만→18만)</span>
+                            </div>
+                            <div class="timeline-item-mini">
+                                <span class="year">2024.4</span>
+                                <span class="desc">영아 증액 (월14.2만→16만)</span>
+                            </div>
+                        </div>
+                        <button class="source-btn-full" onclick="showSource('policy-document')">
+                            📎 출처: 안산시 정책 문서 확인하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 정책 사각지대 섹션 -->
+        <section id="blind-spot" class="section dark-section">
+            <div class="container">
+                <div class="section-header light">
+                    <span class="section-badge warning">단계 III-IV</span>
+                    <h2>정책 사각지대 발견</h2>
+                    <p>데이터가 말하는 불편한 진실</p>
+                </div>
+
+                <div class="blind-spot-content">
+                    <!-- 아이콘 인포그래픽 -->
+                    <div class="icon-infographic animate-on-scroll">
+                        <h3>외국인 아동 10명 중...</h3>
+                        <div class="children-icons">
+                            <div class="child-icon supported" title="지원받는 등록 아동">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                </svg>
+                            </div>
+                            <div class="child-icon supported"><svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                </svg></div>
+                            <div class="child-icon supported"><svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                </svg></div>
+                            <div class="child-icon supported"><svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                </svg></div>
+                            <div class="child-icon supported"><svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                </svg></div>
+                            <div class="child-icon supported"><svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                </svg></div>
+                            <div class="child-icon supported"><svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M12 2C6.48 2 2 6.48 2 12s4.48 10 10 10 10-4.48 10-10S17.52 2 12 2zm-2 15l-5-5 1.41-1.41L10 14.17l7.59-7.59L19 8l-9 9z" />
+                                </svg></div>
+                            <div class="child-icon excluded" title="지원받지 못하는 미등록 아동">
+                                <svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                                </svg>
+                            </div>
+                            <div class="child-icon excluded"><svg viewBox="0 0 24 24" fill="currentColor">
+                                    <path
+                                        d="M19 6.41L17.59 5 12 10.59 6.41 5 5 6.41 10.59 12 5 17.59 6.41 19 12 13.41 17.59 19 19 17.59 13.41 12z" />
+                                </svg></div>
+                            <div class="child-icon partial" title="위험군 (체류 만료 예정)">?</div>
+                        </div>
+                        <div class="icon-legend">
+                            <div class="legend-item"><span class="legend-dot supported"></span> 지원받는 등록 아동 (7명)</div>
+                            <div class="legend-item"><span class="legend-dot excluded"></span> 배제된 미등록 아동 (2명)</div>
+                            <div class="legend-item"><span class="legend-dot partial"></span> 위험군 (1명)</div>
+                        </div>
+                        <button class="source-btn-full" onclick="showSource('unregistered-estimation')">
+                            📎 미등록 아동 추정 근거 및 출처 확인하기
+                        </button>
+                    </div>
+
+                    <!-- 추정 규모 카드 -->
+                    <div class="estimation-card animate-on-scroll">
+                        <h3>안산시 미등록 아동 추정 규모</h3>
+                        <div class="estimation-detail">
+                            <div class="estimation-calc">
+                                <div class="calc-step">
+                                    <span class="step-num">1</span>
+                                    <div class="step-content">
+                                        <span class="step-label">전국 미등록 이주아동 (법무부, 2025.1)</span>
+                                        <span class="step-value">6,169명</span>
+                                    </div>
+                                    <button class="source-btn tiny" onclick="showSource('moj-stats')">📎</button>
+                                </div>
+                                <div class="calc-step">
+                                    <span class="step-num">2</span>
+                                    <div class="step-content">
+                                        <span class="step-label">시민단체 추정 (실제 규모)</span>
+                                        <span class="step-value">1만~2만명</span>
+                                    </div>
+                                    <button class="source-btn tiny" onclick="showSource('ngo-estimation')">📎</button>
+                                </div>
+                                <div class="calc-step">
+                                    <span class="step-num">3</span>
+                                    <div class="step-content">
+                                        <span class="step-label">안산시 외국인 비율 적용</span>
+                                        <span class="step-value">× 13.2%</span>
+                                    </div>
+                                </div>
+                                <div class="calc-result">
+                                    <span class="result-label">안산시 미등록 아동 추정</span>
+                                    <div class="result-range">
+                                        <span class="range-min">최소 814명</span>
+                                        <span class="range-max">최대 2,640명</span>
+                                    </div>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="estimation-note">
+                            <p>📌 이 아이들은 현재 <strong>0원</strong>의 보육료 지원을 받습니다.</p>
+                            <p class="note-sub">※ 안산시 정책 문서에 "등록외국인 아동"만 대상으로 명시</p>
+                        </div>
+                        <button class="source-btn-full" onclick="showSource('unregistered-estimation')">
+                            📎 추정 계산 로직 및 전체 출처 확인하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 역설의 증거 섹션 -->
+        <section id="paradox" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge danger">단계 V</span>
+                    <h2>역설의 증거</h2>
+                    <p>가장 필요한 곳이 가장 먼저 제외되었습니다</p>
+                </div>
+
+                <div class="paradox-content">
+                    <!-- 경기도 지도 시각화 -->
+                    <div class="map-container animate-on-scroll">
+                        <h3>경기도 미등록 아동 보육지원금 시범사업 (2026.1)</h3>
+                        <div class="map-wrapper">
+                            <svg viewBox="0 0 400 350" class="gyeonggi-map" id="gyeonggi-map">
+                                <!-- 안산시 -->
+                                <path class="region ansan excluded"
+                                    d="M120,220 L150,210 L170,230 L160,260 L130,270 L110,250 Z" data-name="안산시"
+                                    data-ratio="13.2" data-status="제외">
+                                </path>
+                                <!-- 화성시 -->
+                                <path class="region hwaseong included"
+                                    d="M170,230 L210,210 L240,240 L220,280 L180,290 L160,260 Z" data-name="화성시"
+                                    data-ratio="7.0" data-status="참여">
+                                </path>
+                                <!-- 안성시 -->
+                                <path class="region anseong included" d="M280,260 L320,250 L340,280 L320,310 L280,300 Z"
+                                    data-name="안성시" data-ratio="5.0" data-status="참여">
+                                </path>
+                                <!-- 이천시 -->
+                                <path class="region icheon included" d="M300,180 L340,170 L360,200 L340,240 L310,230 Z"
+                                    data-name="이천시" data-ratio="4.0" data-status="참여">
+                                </path>
+                                <!-- 기타 지역 -->
+                                <path class="region other"
+                                    d="M100,50 L280,40 L350,100 L360,200 L340,170 L300,180 L280,140 L240,120 L200,100 L150,110 L100,90 Z"
+                                    data-name="북부 경기"></path>
+                                <path class="region other"
+                                    d="M200,100 L240,120 L280,140 L300,180 L310,230 L280,260 L240,240 L210,210 L170,230 L150,210 L160,170 L180,140 Z"
+                                    data-name="중부 경기"></path>
+                                <path class="region other"
+                                    d="M100,90 L150,110 L160,170 L150,210 L120,220 L110,250 L80,230 L60,180 L70,120 Z"
+                                    data-name="서부 경기"></path>
+                            </svg>
+
+                            <div class="map-tooltip" id="map-tooltip"></div>
+                        </div>
+
+                        <div class="map-legend">
+                            <div class="legend-item"><span class="legend-dot included"></span> 시범사업 참여 지역</div>
+                            <div class="legend-item"><span class="legend-dot excluded"></span> 안산시 (제외됨)</div>
+                        </div>
+                        <button class="source-btn-full" onclick="showSource('gyeonggi-pilot')">
+                            📎 경기도 시범사업 관련 출처 확인하기
+                        </button>
+                    </div>
+
+                    <!-- 비교 테이블 -->
+                    <div class="comparison-table animate-on-scroll">
+                        <h3>왜 안산은 빠졌는가?</h3>
+                        <table>
+                            <thead>
+                                <tr>
+                                    <th>지역</th>
+                                    <th>외국인 비율</th>
+                                    <th>시범사업</th>
+                                    <th>논리적 우선순위</th>
+                                </tr>
+                            </thead>
+                            <tbody>
+                                <tr class="highlight-row">
+                                    <td><strong>안산시</strong></td>
+                                    <td>
+                                        <div class="ratio-bar">
+                                            <div class="ratio-fill" style="width: 100%"></div>
+                                        </div>
+                                        <span>13.2%</span>
+                                    </td>
+                                    <td><span class="status-badge excluded">❌ 제외</span></td>
+                                    <td><span class="priority-badge high">1위</span></td>
+                                </tr>
+                                <tr>
+                                    <td>화성시</td>
+                                    <td>
+                                        <div class="ratio-bar">
+                                            <div class="ratio-fill" style="width: 53%"></div>
+                                        </div>
+                                        <span>~7%</span>
+                                    </td>
+                                    <td><span class="status-badge included">✅ 참여</span></td>
+                                    <td><span class="priority-badge medium">2위</span></td>
+                                </tr>
+                                <tr>
+                                    <td>안성시</td>
+                                    <td>
+                                        <div class="ratio-bar">
+                                            <div class="ratio-fill" style="width: 38%"></div>
+                                        </div>
+                                        <span>~5%</span>
+                                    </td>
+                                    <td><span class="status-badge included">✅ 참여</span></td>
+                                    <td><span class="priority-badge low">3위</span></td>
+                                </tr>
+                                <tr>
+                                    <td>이천시</td>
+                                    <td>
+                                        <div class="ratio-bar">
+                                            <div class="ratio-fill" style="width: 30%"></div>
+                                        </div>
+                                        <span>~4%</span>
+                                    </td>
+                                    <td><span class="status-badge included">✅ 참여</span></td>
+                                    <td><span class="priority-badge low">4위</span></td>
+                                </tr>
+                            </tbody>
+                        </table>
+                        <p class="table-note">📊 외국인 비율이 가장 높은 안산시가 시범사업에서 제외된 이유는 공식적으로 설명되지 않았습니다.</p>
+                        <button class="source-btn-full" onclick="showSource('foreigner-ratio-comparison')">
+                            📎 지역별 외국인 비율 출처 확인하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 예산 분석 섹션 -->
+        <section id="budget" class="section light-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge">예산 분석</span>
+                    <h2>예산은 어디로 가고 있는가?</h2>
+                    <p>지원금 흐름의 사각지대</p>
+                </div>
+
+                <div class="budget-grid">
+                    <!-- 현재 지원 구조 (정책 문서 기반) -->
+                    <div class="card glass-card budget-card animate-on-scroll">
+                        <div class="card-header">
+                            <h3>현재 지원 구조</h3>
+                            <button class="source-btn small" onclick="showSource('policy-document')">📎</button>
+                        </div>
+                        <div class="support-list">
+                            <div class="support-item">
+                                <div class="support-header">
+                                    <span class="age-badge">0~2세</span>
+                                    <span class="amount">월 26만원</span>
+                                </div>
+                                <div class="support-bar">
+                                    <div class="bar-fill" style="width: 93%"></div>
+                                </div>
+                            </div>
+                            <div class="support-item">
+                                <div class="support-header">
+                                    <span class="age-badge">3~5세</span>
+                                    <span class="amount">월 28만원</span>
+                                </div>
+                                <div class="support-bar">
+                                    <div class="bar-fill" style="width: 100%"></div>
+                                </div>
+                            </div>
+                            <div class="support-item excluded">
+                                <div class="support-header">
+                                    <span class="age-badge warning">미등록</span>
+                                    <span class="amount warning">0원</span>
+                                </div>
+                                <div class="support-bar">
+                                    <div class="bar-fill excluded" style="width: 0%"></div>
+                                </div>
+                            </div>
+                        </div>
+                        <p class="card-note">※ 안산시 정책 문서 기준 (도비+시비 합계)</p>
+                    </div>
+
+                    <!-- 예산 현황 (정책 문서 기반) -->
+                    <div class="card glass-card budget-detail-card animate-on-scroll">
+                        <div class="card-header">
+                            <h3>2025년 예산 현황</h3>
+                            <button class="source-btn small" onclick="showSource('policy-document')">📎</button>
+                        </div>
+                        <div class="budget-breakdown">
+                            <div class="budget-total">
+                                <span class="budget-amount">72.84억원</span>
+                                <span class="budget-label">총 소요예산</span>
+                            </div>
+                            <div class="budget-split">
+                                <div class="budget-item">
+                                    <div class="budget-bar dobi" style="--width: 14.5%"></div>
+                                    <span class="item-label">도비</span>
+                                    <span class="item-value">10.56억원</span>
+                                </div>
+                                <div class="budget-item">
+                                    <div class="budget-bar sibi" style="--width: 85.5%"></div>
+                                    <span class="item-label">시비</span>
+                                    <span class="item-value">62.28억원</span>
+                                </div>
+                            </div>
+                        </div>
+                        <div class="budget-details-list">
+                            <div class="detail-row">
+                                <span>외국인자녀 보육지원(도비)</span>
+                                <span>26.4억원</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>외국인아동 보육료지원(시비)</span>
+                                <span>43.44억원</span>
+                            </div>
+                            <div class="detail-row">
+                                <span>외국인아동 연장보육료지원</span>
+                                <span>3억원</span>
+                            </div>
+                        </div>
+                    </div>
+
+                    <!-- 사각지대 해소 비용 추정 -->
+                    <div class="card glass-card estimate-card animate-on-scroll">
+                        <h3>사각지대 해소 필요 예산</h3>
+                        <div class="estimate-calc">
+                            <div class="calc-row">
+                                <span class="calc-label">미등록 아동 추정 (중간값)</span>
+                                <span class="calc-value">약 1,700명</span>
+                            </div>
+                            <div class="calc-row">
+                                <span class="calc-label">월 지원금 (경기도 기준)</span>
+                                <span class="calc-value">10만원</span>
+                            </div>
+                            <div class="calc-divider"></div>
+                            <div class="calc-row total">
+                                <span class="calc-label">연간 필요 예산</span>
+                                <span class="calc-value highlight">약 20.4억원</span>
+                            </div>
+                        </div>
+                        <p class="card-note">※ 현재 예산(72.84억)의 약 28% 추가 시 사각지대 해소 가능</p>
+                        <button class="source-btn-full" onclick="showSource('budget-estimation')">
+                            📎 예산 추정 계산 로직 확인하기
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 스토리텔링 섹션 -->
+        <section id="story" class="section story-section">
+            <div class="story-overlay"></div>
+            <div class="container">
+                <div class="story-content animate-on-scroll">
+                    <h2>숫자 뒤의 아이들</h2>
+                    <div class="story-quote">
+                        <blockquote>
+                            원곡초등학교<br>
+                            전체 학생 449명 중 443명(98.6%)이 이주배경
+                            <button class="source-btn inline" onclick="showSource('wongok-school')">📎</button>
+                            <br><br>
+                            이 아이들 중 일부는<br>
+                            <span class="story-highlight">건강보험이 없고</span><br>
+                            <span class="story-highlight">양육수당을 받지 못하고</span><br>
+                            <span class="story-highlight">보육료 지원도 없습니다</span><br><br>
+                            <strong>그들의 선택이 아닙니다.</strong>
+                        </blockquote>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 액션 아이템 섹션 -->
+        <section id="action" class="section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge success">단계 VI</span>
+                    <h2>지금 당장 취해야 할 행동</h2>
+                    <p>정책 개선 로드맵</p>
+                </div>
+
+                <div class="action-timeline">
+                    <div class="timeline-item animate-on-scroll" data-delay="0">
+                        <div class="timeline-marker urgent">
+                            <span>1개월</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>즉각 실행</h4>
+                            <ul>
+                                <li>
+                                    <strong>경기도 시범사업 추가 참여 신청</strong>
+                                    <span class="dept">담당: 여성보육과 (031-481-3323)</span>
+                                </li>
+                                <li>
+                                    <strong>미등록 아동 실태조사 착수</strong>
+                                    <span class="dept">담당: 다문화정책과</span>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll" data-delay="200">
+                        <div class="timeline-marker medium">
+                            <span>6개월</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>중기 실행</h4>
+                            <ul>
+                                <li>
+                                    <strong>안산시 자체 미등록 아동 지원조례 제정</strong>
+                                </li>
+                                <li>
+                                    <strong>예산 편성: 미등록 아동 월 10만원 지원 (약 20억원)</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+
+                    <div class="timeline-item animate-on-scroll" data-delay="400">
+                        <div class="timeline-marker long">
+                            <span>1년</span>
+                        </div>
+                        <div class="timeline-content">
+                            <h4>장기 실행</h4>
+                            <ul>
+                                <li>
+                                    <strong>보육 사각지대 제로화 로드맵 수립</strong>
+                                </li>
+                                <li>
+                                    <strong>타 지자체 벤치마킹 및 모범 사례 확산</strong>
+                                </li>
+                            </ul>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 결론 섹션 -->
+        <section id="conclusion" class="section conclusion-section">
+            <div class="container">
+                <div class="conclusion-content animate-on-scroll">
+                    <h2>선도도시의 책임</h2>
+                    <div class="conclusion-text">
+                        <p>안산시는 스스로를</p>
+                        <p class="emphasis">"다문화 정책의 선도도시"</p>
+                        <p>라고 부릅니다.</p>
+                        <br>
+                        <p>선도도시라면,</p>
+                        <p class="warning-emphasis">가장 취약한 아이들을 가장 먼저 보호해야 합니다.</p>
+                        <br>
+                        <p>지금 안산시에는</p>
+                        <p class="warning-emphasis">보이지 않는 아이들이 있습니다.</p>
+                        <br>
+                        <p>그들을 보이게 만드는 것,</p>
+                        <p class="final-statement">그것이 진정한 선도도시의 책임입니다.</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 출처 요약 섹션 -->
+        <section id="sources" class="section sources-section">
+            <div class="container">
+                <div class="section-header">
+                    <span class="section-badge">📎 참고자료</span>
+                    <h2>데이터 출처 목록</h2>
+                    <p>이 보고서에 사용된 모든 데이터의 출처입니다</p>
+                </div>
+
+                <div class="sources-grid">
+                    <div class="source-card" onclick="showSource('policy-document')">
+                        <span class="source-icon">📄</span>
+                        <h4>안산시 정책 문서</h4>
+                        <p>외국인가정의 안전한 보육환경 조성 (3-3-48)</p>
+                        <span class="source-type">공식 문서</span>
+                    </div>
+                    <div class="source-card" onclick="showSource('foreigner-population')">
+                        <span class="source-icon">📊</span>
+                        <h4>외국인 인구 통계</h4>
+                        <p>안산시 외국인 주민 현황 (2024.1)</p>
+                        <span class="source-type">행정 통계</span>
+                    </div>
+                    <div class="source-card" onclick="showSource('moj-stats')">
+                        <span class="source-icon">🏛️</span>
+                        <h4>법무부 통계</h4>
+                        <p>미등록 이주아동 현황 (2025.1)</p>
+                        <span class="source-type">정부 통계</span>
+                    </div>
+                    <div class="source-card" onclick="showSource('gyeonggi-pilot')">
+                        <span class="source-icon">📰</span>
+                        <h4>경기도 시범사업</h4>
+                        <p>미등록 외국인 아동 보육지원금 (2026.1)</p>
+                        <span class="source-type">보도자료</span>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <!-- 푸터 -->
+        <footer class="footer">
+            <div class="container">
+                <div class="footer-content">
+                    <div class="footer-info">
+                        <h4>안산시 정책 감사 및 개선을 위한 특별 에이전트 팀</h4>
+                        <p>CRISP-DM 기반 데이터 분석 보고서</p>
+                        <p class="date">2026년 1월 15일</p>
+                        <p class="contact">담당부서: 안산시 여성보육과 (031-481-3323)</p>
+                    </div>
+                    <div class="footer-quote">
+                        <p>"데이터는 거짓말을 하지 않습니다.<br>
+                            하지만 데이터만으로는 변화가 일어나지 않습니다.<br>
+                            변화는 이 데이터를 보고 행동하는 사람들에 의해 시작됩니다."</p>
+                    </div>
+                </div>
+            </div>
+        </footer>
+    </div>
+
+    <script src="script.js"></script>
+</body>
+
+</html>
