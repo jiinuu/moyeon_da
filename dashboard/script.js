@@ -377,6 +377,172 @@ const sourceData = {
                 📎 미등록 아동 추정 확인
             </a>
         `
+    },
+
+    // 차트 데이터 출처
+    'trend-data': {
+        title: '외국인 인구 추이 데이터',
+        content: `
+            <h4>📊 데이터 정보</h4>
+            <div class="data-highlight">
+                <strong>기간:</strong> 2018년 ~ 2024년<br>
+                <strong>출처:</strong> 안산시청 외국인 주민 현황 연도별 통계
+            </div>
+            
+            <h4>📈 연도별 데이터</h4>
+            <ul>
+                <li>2018년: 78,500명 (11.1%)</li>
+                <li>2019년: 82,000명 (11.5%)</li>
+                <li>2020년: 79,000명 (11.0%) - 코로나19 영향</li>
+                <li>2021년: 85,000명 (11.8%)</li>
+                <li>2022년: 90,000명 (12.5%)</li>
+                <li>2023년: 93,500명 (12.9%)</li>
+                <li>2024년: 96,300명 (13.2%)</li>
+            </ul>
+            
+            <h4>🔗 출처</h4>
+            <ul>
+                <li>안산시청 연도별 외국인 주민 현황</li>
+                <li>행정안전부 외국인주민 현황 조사</li>
+            </ul>
+        `
+    },
+
+    'comparison-data': {
+        title: '경기도 시군구 비교 데이터',
+        content: `
+            <h4>📊 데이터 정보</h4>
+            <div class="data-highlight">
+                <strong>기준:</strong> 2024년 각 시군구 외국인 주민 현황<br>
+                <strong>시범사업:</strong> 경기도 미등록 아동 보육지원금 (2026.1)
+            </div>
+            
+            <h4>📈 시군구별 비교</h4>
+            <ul>
+                <li><strong>안산시:</strong> 13.2% (96,300명) - ❌ 시범사업 제외</li>
+                <li><strong>시흥시:</strong> 10.1% (47,500명) - 미참여</li>
+                <li><strong>화성시:</strong> 7.0% (63,000명) - ✅ 시범사업 참여</li>
+                <li><strong>평택시:</strong> 6.5% (37,000명) - 미참여</li>
+                <li><strong>안성시:</strong> 5.0% (9,500명) - ✅ 시범사업 참여</li>
+                <li><strong>이천시:</strong> 4.0% (8,800명) - ✅ 시범사업 참여</li>
+            </ul>
+            
+            <div class="warning-box">
+                <strong>⚠️ 핵심 역설:</strong><br>
+                외국인 비율 1위인 안산시가 시범사업에서 제외되고,
+                3위, 5위, 6위 도시가 참여함
+            </div>
+            
+            <h4>🔗 출처</h4>
+            <ul>
+                <li>각 시군 외국인 주민 현황 통계</li>
+                <li>경기도청 미등록 아동 보육지원금 보도자료 (2025.12)</li>
+            </ul>
+        `
+    },
+
+    'support-data': {
+        title: '보육료 지원 현황 데이터',
+        content: `
+            <h4>📊 데이터 정보</h4>
+            <div class="data-highlight">
+                <strong>출처:</strong> 안산시 정책 문서 (3-3-48)<br>
+                <strong>기준:</strong> 2024년 8월말
+            </div>
+            
+            <h4>📈 지원 현황</h4>
+            <ul>
+                <li><strong>등록 아동 지원:</strong> 2,144명</li>
+                <li><strong>연장보육 지원:</strong> 1,434명</li>
+                <li><strong>미등록 아동 지원:</strong> 0명</li>
+            </ul>
+            
+            <h4>💰 지원 금액</h4>
+            <ul>
+                <li><strong>0~2세:</strong> 월 26만원 (도비 10만 + 시비 16만)</li>
+                <li><strong>3~5세:</strong> 월 28만원 (도비 10만 + 시비 18만)</li>
+                <li><strong>미등록:</strong> 0원 (정책 대상 제외)</li>
+            </ul>
+            
+            <h4>🔗 출처</h4>
+            <a href="#" onclick="showSource('policy-document'); return false;" class="source-link">
+                📎 안산시 정책 문서 확인
+            </a>
+        `
+    },
+
+    'wongok-data': {
+        title: '원곡동 다문화특구 데이터',
+        content: `
+            <h4>📊 데이터 정보</h4>
+            <div class="data-highlight">
+                <strong>지역:</strong> 안산시 단원구 원곡동<br>
+                <strong>기준:</strong> 2024년 1월
+            </div>
+            
+            <h4>📈 주민 구성</h4>
+            <ul>
+                <li><strong>총 주민:</strong> 20,191명</li>
+                <li><strong>외국인 주민:</strong> 18,014명 (89.2%)</li>
+                <li><strong>내국인 주민:</strong> 2,177명 (10.8%)</li>
+            </ul>
+            
+            <h4>🏫 원곡초등학교</h4>
+            <ul>
+                <li><strong>전체 학생:</strong> 449명</li>
+                <li><strong>이주배경 학생:</strong> 443명 (98.6%)</li>
+            </ul>
+            
+            <h4>🔗 출처</h4>
+            <ul>
+                <li>안산시청 다문화마을특구 현황 (2024.1)</li>
+                <li>동아일보 (2024.1)</li>
+                <li>동아일보 (2021) - 원곡초 학생 현황</li>
+            </ul>
+        `
+    },
+
+    'budget-data': {
+        title: '예산 분석 데이터',
+        content: `
+            <h4>📊 데이터 정보</h4>
+            <div class="data-highlight">
+                <strong>출처:</strong> 안산시 정책 문서 (3-3-48)<br>
+                <strong>기준:</strong> 2025년 예산
+            </div>
+            
+            <h4>💰 현재 예산</h4>
+            <ul>
+                <li><strong>총 예산:</strong> 72.84억원</li>
+                <li><strong>도비:</strong> 10.56억원 (14.5%)</li>
+                <li><strong>시비:</strong> 62.28억원 (85.5%)</li>
+            </ul>
+            
+            <h4>📊 사각지대 해소 필요 예산</h4>
+            <div class="calculation-box">
+                <div class="calc-line">
+                    <span>미등록 아동 추정</span>
+                    <span>1,700명</span>
+                </div>
+                <div class="calc-line">
+                    <span>월 지원금</span>
+                    <span>10만원</span>
+                </div>
+                <div class="calc-line">
+                    <span>연간 필요 예산</span>
+                    <span>20.4억원</span>
+                </div>
+            </div>
+            
+            <div class="data-highlight">
+                <strong>결론:</strong> 현재 예산의 약 28% 추가 시 사각지대 해소 가능
+            </div>
+            
+            <h4>🔗 출처</h4>
+            <a href="#" onclick="showSource('policy-document'); return false;" class="source-link">
+                📎 안산시 정책 문서 확인
+            </a>
+        `
     }
 };
 

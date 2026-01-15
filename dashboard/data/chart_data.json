@@ -1,0 +1,248 @@
+{
+  "trend": [
+    {
+      "year": 2018,
+      "total_population": 705000,
+      "foreign_population": 78500,
+      "ratio": 11.1
+    },
+    {
+      "year": 2019,
+      "total_population": 710000,
+      "foreign_population": 82000,
+      "ratio": 11.5
+    },
+    {
+      "year": 2020,
+      "total_population": 715000,
+      "foreign_population": 79000,
+      "ratio": 11.0
+    },
+    {
+      "year": 2021,
+      "total_population": 718000,
+      "foreign_population": 85000,
+      "ratio": 11.8
+    },
+    {
+      "year": 2022,
+      "total_population": 722000,
+      "foreign_population": 90000,
+      "ratio": 12.5
+    },
+    {
+      "year": 2023,
+      "total_population": 726000,
+      "foreign_population": 93500,
+      "ratio": 12.9
+    },
+    {
+      "year": 2024,
+      "total_population": 730000,
+      "foreign_population": 96300,
+      "ratio": 13.2
+    }
+  ],
+  "comparison": [
+    {
+      "region": "안산시",
+      "foreign_ratio": 13.2,
+      "foreign_count": 96300,
+      "pilot_program": false,
+      "rank": 1
+    },
+    {
+      "region": "시흥시",
+      "foreign_ratio": 10.1,
+      "foreign_count": 47500,
+      "pilot_program": false,
+      "rank": 2
+    },
+    {
+      "region": "화성시",
+      "foreign_ratio": 7.0,
+      "foreign_count": 63000,
+      "pilot_program": true,
+      "rank": 3
+    },
+    {
+      "region": "수원시",
+      "foreign_ratio": 4.8,
+      "foreign_count": 58000,
+      "pilot_program": false,
+      "rank": 4
+    },
+    {
+      "region": "안성시",
+      "foreign_ratio": 5.0,
+      "foreign_count": 9500,
+      "pilot_program": true,
+      "rank": 5
+    },
+    {
+      "region": "이천시",
+      "foreign_ratio": 4.0,
+      "foreign_count": 8800,
+      "pilot_program": true,
+      "rank": 6
+    },
+    {
+      "region": "평택시",
+      "foreign_ratio": 6.5,
+      "foreign_count": 37000,
+      "pilot_program": false,
+      "rank": 7
+    },
+    {
+      "region": "김포시",
+      "foreign_ratio": 5.8,
+      "foreign_count": 28000,
+      "pilot_program": false,
+      "rank": 8
+    },
+    {
+      "region": "파주시",
+      "foreign_ratio": 5.2,
+      "foreign_count": 24000,
+      "pilot_program": false,
+      "rank": 9
+    },
+    {
+      "region": "용인시",
+      "foreign_ratio": 3.5,
+      "foreign_count": 38000,
+      "pilot_program": false,
+      "rank": 10
+    }
+  ],
+  "support": {
+    "registered_children_supported": 2144,
+    "extended_care_supported": 1434,
+    "unregistered_children_supported": 0,
+    "estimated_unregistered_min": 814,
+    "estimated_unregistered_max": 2640,
+    "support_amounts": {
+      "age_0_2": {
+        "dobi": 100000,
+        "sibi": 160000,
+        "total": 260000
+      },
+      "age_3_5": {
+        "dobi": 100000,
+        "sibi": 180000,
+        "total": 280000
+      },
+      "unregistered": {
+        "dobi": 0,
+        "sibi": 0,
+        "total": 0
+      }
+    },
+    "budget_2025": {
+      "total": 7284000000,
+      "dobi": 1056000000,
+      "sibi": 6228000000
+    }
+  },
+  "perception": [
+    {
+      "category": "외국인 지원 수준",
+      "perception": "선도적",
+      "reality": "미등록 아동 0% 지원",
+      "gap_severity": "critical"
+    },
+    {
+      "category": "시범사업 참여",
+      "perception": "당연히 포함",
+      "reality": "경기도 사업에서 제외",
+      "gap_severity": "critical"
+    },
+    {
+      "category": "정책 형평성",
+      "perception": "내외국인 차별 없음",
+      "reality": "'등록' 외국인만 대상",
+      "gap_severity": "high"
+    },
+    {
+      "category": "미등록 아동 규모",
+      "perception": "소수 (수십명)",
+      "reality": "최소 814명 ~ 최대 2,640명",
+      "gap_severity": "critical"
+    }
+  ],
+  "wongok": {
+    "total_residents": 20191,
+    "foreign_residents": 18014,
+    "korean_residents": 2177,
+    "foreign_ratio": 89.2,
+    "wongok_elementary": {
+      "total_students": 449,
+      "immigrant_background": 443,
+      "ratio": 98.6
+    }
+  },
+  "budget": {
+    "current_budget": 7284000000,
+    "additional_needed_for_unregistered": 2040000000,
+    "calculation": {
+      "estimated_children": 1700,
+      "monthly_support": 100000,
+      "annual_support": 1200000,
+      "total_needed": 2040000000
+    },
+    "percentage_increase": 28.0,
+    "city_total_budget_ratio": 0.1
+  },
+  "timeline": [
+    {
+      "date": "2018.07",
+      "event": "외국인아동 누리과정 보육료 지원 시작 (3~5세)",
+      "type": "positive"
+    },
+    {
+      "date": "2019.01",
+      "event": "외국인아동 보육료 지원 확대 (0~5세)",
+      "type": "positive"
+    },
+    {
+      "date": "2020",
+      "event": "외국인정책 시행계획 신규 수록",
+      "type": "positive"
+    },
+    {
+      "date": "2021.03",
+      "event": "누리아동 보육료 증액 (월22만→24만)",
+      "type": "positive"
+    },
+    {
+      "date": "2023.01",
+      "event": "경기도 매칭 지원 및 연장보육료 신규",
+      "type": "positive"
+    },
+    {
+      "date": "2024.01",
+      "event": "누리아동 증액 (월16.2만→18만)",
+      "type": "positive"
+    },
+    {
+      "date": "2024.04",
+      "event": "영아 증액 (월14.2만→16만)",
+      "type": "positive"
+    },
+    {
+      "date": "2024.12",
+      "event": "행안부 우수상 수상",
+      "type": "positive"
+    },
+    {
+      "date": "2025.12",
+      "event": "경기도 미등록 아동 시범사업 발표",
+      "type": "neutral"
+    },
+    {
+      "date": "2026.01",
+      "event": "안산시, 경기도 시범사업에서 제외",
+      "type": "negative"
+    }
+  ]
+}
